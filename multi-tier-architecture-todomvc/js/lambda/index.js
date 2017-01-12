@@ -63,7 +63,12 @@ var _run = function (event, context) {
     console.log('Received event:', JSON.stringify(event, null, 2));
     var operation = event.httpMethod;
     var body = event.body == null ? {} : JSON.parse(event.body);
-    var id = parseInt(body.id || event.queryStringParameters.id);
+    var id = undefined;// parseInt(body.id || event.queryStringParameters.id);
+    if (body && body.id) {
+        id = body.id;
+    } else if (event.queryStringParameters && event.queryStringParameters.id) {
+        id = event.queryStringParameters.id;
+    }
     var params = {Key: {}, TableName: config.table};
     if (id) {
         params.Key[config.keyName] = id;
