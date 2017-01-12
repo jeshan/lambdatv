@@ -8,12 +8,13 @@
  * model.
  */
 angular.module('todomvc')
-	.factory('todoStorage', function ($http, $injector) {
+    .constant('apiGatewayBaseUrl', 'https://41nh5fdeyc.execute-api.eu-west-1.amazonaws.com/prod/multi-tier')
+	.factory('todoStorage', function ($http, $injector, apiGatewayBaseUrl) {
 		'use strict';
 
 		// Detect if an API backend is present. If so, return the API module, else
 		// hand off the localStorage adapter
-		return $http.get('/api')
+		return $http.get(apiGatewayBaseUrl)
 			.then(function () {
 				return $injector.get('api');
 			}, function () {
@@ -21,17 +22,17 @@ angular.module('todomvc')
 			});
 	})
 
-	.factory('api', function ($resource) {
+	.factory('api', function ($resource, apiGatewayBaseUrl) {
 		'use strict';
 
-		var store = {
+        var store = {
 			todos: [],
 
-			api: $resource('/api/todos/:id', null,
-				{
-					update: { method:'PUT' }
-				}
-			),
+            api: $resource(apiGatewayBaseUrl, null,
+                {
+                    update: {method: 'PUT'}
+                }
+            ),
 
 			clearCompleted: function () {
 				var originalTodos = store.todos.slice(0);
