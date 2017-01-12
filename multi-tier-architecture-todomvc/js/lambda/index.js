@@ -1,3 +1,5 @@
+// original source: https://github.com/meconlin/lambda-generic-microservice/blob/master/index.js
+// modified to work with Amazon API Gateway
 //  microservice lambda config
 //
 //  Change DynamoDB setup to use this index.js with a different dynamoDB
@@ -51,7 +53,10 @@ var messageBadRequest = function (err) {
 var messageSucceeded = function (code, results) {
     return {
         statusCode: code,
-        body: JSON.stringify({data: results})
+        headers: {
+            "Access-Control-Allow-Origin": "*" // Required for CORS support to work
+        },
+        body: JSON.stringify(results)
     };
 };
 
@@ -111,9 +116,7 @@ var _run = function (event, context) {
                     if (!Object.keys(res).length) {
                         context.succeed(messageNotFound(id));
                     } else {
-                        var succeeded = messageSucceeded(200, res.Item || res.Items);
-                        console.log("returning", succeeded);
-                        context.succeed(succeeded);
+                        context.succeed(messageSucceeded(200, res.Item || res.Items));
                     }
                 }
             };
@@ -142,18 +145,37 @@ var _run = function (event, context) {
                     if (err) {
                         context.succeed(messageServerError(err));
                     } else {
-                        context.succeed(messageSucceeded('OK', res.Attributes));
+                        context.succeed(messageSucceeded(204, {}));
                     }
                 });
             }
             break;
         case 'DELETE':
-            docClient.delete(params, function (err, res) {
-                if (err) {
-                    context.succeed(messageServerError(err));
-                } else {
-                    context.succeed(messageSucceeded('OK', res)); //Note : not using 204 No Content here
+            // filter is just for the todoMvc app which doesn't delete all items
+            // but only those that are marked as completed
+
+            docClient.scan({
+                FilterExpression: 'completed = :completed',
+                ExpressionAttributeValues: {
+                    ':completed': true
+                },
+                TableName: config.table
+            }, function (err, data) {
+                var items = data.Items;
+                params = {RequestItems: {}};
+                params.RequestItems[config.table] = [];
+
+                for (var i = 0; i < items.length; ++i) {
+                    var item = items[i];
+                    params.RequestItems[config.table].push({DeleteRequest: {Key: {id: item.id}}});
                 }
+                docClient.batchWrite(params, function (err, res) {
+                    if (err) {
+                        context.succeed(messageServerError(err));
+                    } else {
+                        context.succeed(messageSucceeded(204, {}));
+                    }
+                });
             });
             break;
         default:
