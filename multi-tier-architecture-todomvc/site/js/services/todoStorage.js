@@ -28,7 +28,7 @@ angular.module('todomvc')
         var store = {
             todos: [],
 
-            api: $resource(apiGatewayBaseUrl + '?id=:id', null,
+            api: $resource(apiGatewayBaseUrl, null,
                 {
                     update: {method: 'PUT'}
                 }
