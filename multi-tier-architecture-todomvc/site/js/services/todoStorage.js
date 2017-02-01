@@ -8,7 +8,7 @@
  * model.
  */
 angular.module('todomvc')
-    .constant('apiGatewayBaseUrl', 'https://41nh5fdeyc.execute-api.eu-west-1.amazonaws.com/prod/multi-tier')
+    .constant('apiGatewayBaseUrl', 'https://pa71qoosib.execute-api.eu-west-1.amazonaws.com/prod/multi-tier')
     .factory('todoStorage', function ($http, $injector, apiGatewayBaseUrl) {
         'use strict';
 
@@ -28,7 +28,7 @@ angular.module('todomvc')
         var store = {
             todos: [],
 
-            api: $resource(apiGatewayBaseUrl, null,
+            api: $resource(apiGatewayBaseUrl + '?id=:id', null,
                 {
                     update: {method: 'PUT'}
                 }
@@ -50,6 +50,7 @@ angular.module('todomvc')
             },
 
             delete: function (todo) {
+                console.log("deleting todo", todo);
                 var originalTodos = store.todos.slice(0);
 
                 store.todos.splice(store.todos.indexOf(todo), 1);
