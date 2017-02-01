@@ -19,9 +19,8 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 var DYNAMODB_ERROR_CONDITIONAL_CHECK = "ConditionalCheckFailedException";
 
 // custom error returns
-// using http status messages here in case AWS API Gateway is in play in front of this Lambda, response mapping to appropriate status codes
-// in the API gateway occurs using regex
-//
+// using http status messages here in case AWS API Gateway is in play in front of this Lambda,
+// response mapping to appropriate status codes in the API gateway occurs using regex
 var messageNotFound = function (key) {
     return {
         statusCode: 404,
@@ -64,15 +63,15 @@ var conditionExpressionNotExists = function (key) {
     return "attribute_not_exists(" + key + ")";
 };
 
-var _run = function (event, context) {
+exports.handler = function (event, context) {
     console.log('Received event:', JSON.stringify(event, null, 2));
     var operation = event.httpMethod;
     var body = event.body == null ? {} : JSON.parse(event.body);
     var id = undefined;// parseInt(body.id || event.queryStringParameters.id);
     if (body && body.id) {
-        id = body.id;
+        id = parseInt(body.id);
     } else if (event.queryStringParameters && event.queryStringParameters.id) {
-        id = event.queryStringParameters.id;
+        id = parseInt(event.queryStringParameters.id);
     }
     var params = {Key: {}, TableName: config.table};
     if (id) {
@@ -86,7 +85,8 @@ var _run = function (event, context) {
                 id: new Date().getTime(),
                 completed: false
             };
-            params.ConditionExpression = conditionExpressionNotExists(config.keyName); //dont double create
+            //dont double create
+            params.ConditionExpression = conditionExpressionNotExists(config.keyName);
 
             // update default create with any keys from the post body
             // ignores keys we dont know about
@@ -104,7 +104,7 @@ var _run = function (event, context) {
                         context.succeed(messageServerError(err));
                     }
                 } else {
-                    context.succeed(messageSucceeded(201, {}));
+                    context.succeed(messageSucceeded(201, {id: params.Item.id}));
                 }
             });
             break;
@@ -165,9 +165,13 @@ var _run = function (event, context) {
                 params = {RequestItems: {}};
                 params.RequestItems[config.table] = [];
 
-                for (var i = 0; i < items.length; ++i) {
-                    var item = items[i];
-                    params.RequestItems[config.table].push({DeleteRequest: {Key: {id: item.id}}});
+                if (id) {
+                    params.RequestItems[config.table].push({DeleteRequest: {Key: {id: id}}});
+                } else {
+                    for (var i = 0; i < items.length; ++i) {
+                        var item = items[i];
+                        params.RequestItems[config.table].push({DeleteRequest: {Key: {id: item.id}}});
+                    }
                 }
                 docClient.batchWrite(params, function (err, res) {
                     if (err) {
@@ -181,8 +185,4 @@ var _run = function (event, context) {
         default:
             context.succeed(messageServerError('unrecognized operation - ' + operation));
     }
-};
-
-exports.handler = function (event, context) {
-    _run(event, context);
 };
