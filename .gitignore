@@ -3,3 +3,8 @@
 *.iml
 
 node_modules
+
+lambda-package.zip
+
+role-policy-document.json
+cloudfront-distribution.json

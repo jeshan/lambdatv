@@ -1,0 +1,99 @@
+{
+  "CallerReference": "1",
+  "CacheBehaviors": {
+    "Quantity": 0
+  },
+  "Restrictions": {
+    "GeoRestriction": {
+      "RestrictionType": "none",
+      "Quantity": 0
+    }
+  },
+  "Origins": {
+    "Items": [
+      {
+        "OriginPath": "",
+        "CustomOriginConfig": {
+          "OriginProtocolPolicy": "http-only",
+          "HTTPPort": 80,
+          "OriginSslProtocols": {
+            "Items": [
+              "SSLv3",
+              "TLSv1"
+            ],
+            "Quantity": 2
+          },
+          "HTTPSPort": 443
+        },
+        "CustomHeaders": {
+          "Quantity": 0
+        },
+        "Id": "DOMAIN-S3-origin",
+        "DomainName": "DOMAIN.s3-website-REGION.amazonaws.com"
+      }
+    ],
+    "Quantity": 1
+  },
+  "WebACLId": "",
+  "PriceClass": "PriceClass_All",
+  "Enabled": true,
+  "DefaultCacheBehavior": {
+    "TrustedSigners": {
+      "Enabled": false,
+      "Quantity": 0
+    },
+    "LambdaFunctionAssociations": {
+      "Quantity": 0
+    },
+    "TargetOriginId": "DOMAIN-S3-origin",
+    "ViewerProtocolPolicy": "redirect-to-https",
+    "ForwardedValues": {
+      "Headers": {
+        "Quantity": 0
+      },
+      "Cookies": {
+        "Forward": "all"
+      },
+      "QueryStringCacheKeys": {
+        "Quantity": 0
+      },
+      "QueryString": true
+    },
+    "MaxTTL": 31536000,
+    "SmoothStreaming": false,
+    "DefaultTTL": 86400,
+    "AllowedMethods": {
+      "Items": [
+        "HEAD",
+        "GET"
+      ],
+      "CachedMethods": {
+        "Items": [
+          "HEAD",
+          "GET"
+        ],
+        "Quantity": 2
+      },
+      "Quantity": 2
+    },
+    "MinTTL": 86400,
+    "Compress": true
+  },
+  "Comment": "",
+  "ViewerCertificate": {
+    "SSLSupportMethod": "sni-only",
+    "ACMCertificateArn": "CERTIFICATE_ARN",
+    "MinimumProtocolVersion": "TLSv1",
+    "Certificate": "CERTIFICATE_ARN",
+    "CertificateSource": "acm"
+  },
+  "CustomErrorResponses": {
+    "Quantity": 0
+  },
+  "Aliases": {
+    "Items": [
+      "DOMAIN"
+    ],
+    "Quantity": 1
+  }
+}
