@@ -10,9 +10,11 @@ To visit the channel:
 https://www.youtube.com/channel/UCrW29-MLOGXV0VDrCMDXSKw
 
 The blog is found here:
-lambdatv.com
+http://lambdatv.com
 
-All code authored by me are released under the simplified BSD licence. The rest are under the 
+# Licensing
+
+All code authored by me are released under the simplified BSD licence unless stated otherwise. The rest are under the 
 terms set by their respective copyright owners.
 
 # Author
