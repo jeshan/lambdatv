@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DOMAIN=multitier.jeshan.co
+DOMAIN=
 
 # cloudfront currently only accepts certificates issued in us-east-1
 
