@@ -49,11 +49,12 @@ var messageBadRequest = function (err) {
     };
 };
 
-var messageSucceeded = function (code, results) {
+var messageSucceeded = function (code, results, origin) {
+    // Note: don't set origin as global variable, always pass it in from the current event object
     return {
         statusCode: code,
         headers: {
-            "Access-Control-Allow-Origin": "*" // Required for CORS support to work
+            "Access-Control-Allow-Origin": origin // Required for CORS support to work
         },
         body: JSON.stringify(results)
     };
@@ -63,11 +64,23 @@ var conditionExpressionNotExists = function (key) {
     return "attribute_not_exists(" + key + ")";
 };
 
+function getDomainOrigin(event) {
+    if (event.headers === null) {
+        return null;
+    }
+    if (event.headers.Origin === process.env['ORIGIN']) {
+        return event.headers.Origin;
+    }
+    return null;
+}
+
 exports.handler = function (event, context) {
     console.log('Received event:', JSON.stringify(event, null, 2));
     var operation = event.httpMethod;
     var body = event.body == null ? {} : JSON.parse(event.body);
     var id = undefined;// parseInt(body.id || event.queryStringParameters.id);
+    var origin = getDomainOrigin(event);
+    console.log("got origin", origin);
     if (body && body.id) {
         id = parseInt(body.id);
     } else if (event.queryStringParameters && event.queryStringParameters.id) {
@@ -104,7 +117,7 @@ exports.handler = function (event, context) {
                         context.succeed(messageServerError(err));
                     }
                 } else {
-                    context.succeed(messageSucceeded(201, {id: params.Item.id}));
+                    context.succeed(messageSucceeded(201, {id: params.Item.id}, origin));
                 }
             });
             break;
@@ -116,7 +129,7 @@ exports.handler = function (event, context) {
                     if (!Object.keys(res).length) {
                         context.succeed(messageNotFound(id));
                     } else {
-                        context.succeed(messageSucceeded(200, res.Item || res.Items));
+                        context.succeed(messageSucceeded(200, res.Item || res.Items, origin));
                     }
                 }
             };
@@ -145,7 +158,7 @@ exports.handler = function (event, context) {
                     if (err) {
                         context.succeed(messageServerError(err));
                     } else {
-                        context.succeed(messageSucceeded(204, {}));
+                        context.succeed(messageSucceeded(204, {}, origin));
                     }
                 });
             }
@@ -177,7 +190,7 @@ exports.handler = function (event, context) {
                     if (err) {
                         context.succeed(messageServerError(err));
                     } else {
-                        context.succeed(messageSucceeded(204, {}));
+                        context.succeed(messageSucceeded(204, {}, origin));
                     }
                 });
             });
