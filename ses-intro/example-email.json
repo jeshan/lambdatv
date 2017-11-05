@@ -1,11 +1,11 @@
 {
-  "Source": "j+testing-bounce@jeshan.co",
+  "Source": "from@email.com",
   "Template": "Template1",
   "Destinations": [
     {
       "Destination": {
         "ToAddresses": [
-          "j@jeshan.co"
+          "first@email.com"
         ]
       },
       "ReplacementTemplateData": "{ \"name\":\"Geek\", \"colour\":\"blue\" }"
@@ -13,7 +13,7 @@
     {
       "Destination": {
         "ToAddresses": [
-          "j@jeshan.co"
+          "first@email.com"
         ]
       },
       "ReplacementTemplateData": "{}"
