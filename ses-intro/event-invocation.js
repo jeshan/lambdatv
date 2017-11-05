@@ -5,7 +5,7 @@ exports.handler = (event, context, callback) => {
 
   const {timestamp, source, messageId} = mail;
   const receivedHeader = (mail.headers.find((x) => x.name === 'X-Received') || {}).value;
-  console.log('received', receivedHeader); // example how you can read headers
+  // console.log('received header', receivedHeader); // example how you can read headers
 
   const {from, date, to, subject} = mail.commonHeaders;
 
