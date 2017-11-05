@@ -9,5 +9,7 @@ exports.handler = (event, context, callback) => {
 
   const {from, date, to, subject} = mail.commonHeaders;
 
+  console.log('received mail', mail);
+
   callback(null, {from: from[0], to: to[0], subject, date, timestamp, source, messageId});
 };
