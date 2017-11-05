@@ -13,7 +13,7 @@
     {
       "Destination": {
         "ToAddresses": [
-          "first@email.com"
+          "second@email.com"
         ]
       },
       "ReplacementTemplateData": "{}"
