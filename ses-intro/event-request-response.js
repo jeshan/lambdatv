@@ -22,7 +22,7 @@ exports.handler = (event, context, callback) => {
 function sendBounce(messageId, emailDomain, receipt, callback) {
   // needs ses:SendBounce permission
   const sendBounceParams = {
-    BounceSender: 'j+testing-bounce@jeshan.co', // must have been verified with SES
+    BounceSender: 'testing-bounce@email.com', // must have been verified with SES
     OriginalMessageId: messageId,
     MessageDsn: {
       ReportingMta: `dns; ${emailDomain}`,
