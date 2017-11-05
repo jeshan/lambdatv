@@ -1,0 +1,23 @@
+{
+  "Source": "j+testing-bounce@jeshan.co",
+  "Template": "Template1",
+  "Destinations": [
+    {
+      "Destination": {
+        "ToAddresses": [
+          "j@jeshan.co"
+        ]
+      },
+      "ReplacementTemplateData": "{ \"name\":\"Geek\", \"colour\":\"blue\" }"
+    },
+    {
+      "Destination": {
+        "ToAddresses": [
+          "j@jeshan.co"
+        ]
+      },
+      "ReplacementTemplateData": "{}"
+    }
+  ],
+  "DefaultTemplateData": "{ \"name\":\"fellow nerd\", \"colour\":\"red\" }"
+}

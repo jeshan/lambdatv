@@ -1,0 +1,7 @@
+{
+  "Template": {
+    "TemplateName": "Template1",
+    "SubjectPart": "Hey, {{name}}!",
+    "HtmlPart": "<h1>Hello {{name}},</h1><p>Your favourite colour is {{colour}}.</p>"
+  }
+}
