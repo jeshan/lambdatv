@@ -9,5 +9,5 @@ exports.handler = (event, context, callback) => {
 
   const {from, date, to, subject} = mail.commonHeaders;
 
-  context.succeed({from: from[0], to: to[0], subject, date, timestamp, source, messageId});
+  callback(null, {from: from[0], to: to[0], subject, date, timestamp, source, messageId});
 };
