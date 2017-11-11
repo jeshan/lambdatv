@@ -1,0 +1,16 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1509870273000",
+      "Effect": "Allow",
+      "Action": [
+        "ses:SendBounce",
+        "ses:SendEmail"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}
