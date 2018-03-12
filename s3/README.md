@@ -1,5 +1,5 @@
 
-Run this demo by clicking the following button or running the specified command in your terminal:
+Run this demo by running the specified command in your terminal:
 
 
 # Demo 1: S3 Event log
