@@ -14,8 +14,12 @@ Run this demo by clicking the following button or running the specified command 
 
 
 # Upload some files
-1. aws s3 cp mountain.jpeg s3://lambdatv-s3-image-tag-${YOUR_ACCOUNT}
-2. aws s3 cp leaders.jpg s3://lambdatv-s3-image-tag-${YOUR_ACCOUNT}
+1. `aws s3 cp mountain.jpeg s3://lambdatv-s3-image-tag-${YOUR_ACCOUNT_NUMBER}`
+2. `aws s3 cp leaders.jpg s3://lambdatv-s3-image-tag-${YOUR_ACCOUNT_NUMBER}`
+
+and also
+1. `aws s3 cp mountain.jpeg s3://lambdatv-s3-event-log-${YOUR_ACCOUNT_NUMBER}`
+2. `aws s3 cp leaders.jpg s3://lambdatv-s3-event-log-${YOUR_ACCOUNT_NUMBER}`
 
 
 # Notes
