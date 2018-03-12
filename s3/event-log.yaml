@@ -1,18 +1,12 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: LambdaTV S3 intro demo setup
 
-Parameters:
-  BucketName:
-    Type: String
-    Default: lambdatv-s3-intro-catch-all-demo
-    Description: Change this to avoid collision with other users (i.e me)
-
 Resources:
   DemoBucket:
     Type: AWS::S3::Bucket
     DependsOn: LambdaInvokePermission
     Properties:
-      BucketName: !Ref BucketName
+      BucketName: !Sub 'lambdatv-s3-catchall-${AWS::AccountId}'
       NotificationConfiguration:
         LambdaConfigurations:
         -  Event: 's3:ObjectCreated:*'
@@ -71,7 +65,7 @@ Resources:
       Action: 'lambda:InvokeFunction'
       Principal: s3.amazonaws.com
       SourceAccount: !Ref 'AWS::AccountId'
-      SourceArn: !Sub 'arn:aws:s3:::${BucketName}'
+      SourceArn: !Sub 'arn:aws:s3:::lambdatv-s3-catchall-${AWS::AccountId}'
 
   Role:
     Type: AWS::IAM::Role
