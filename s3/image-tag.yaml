@@ -1,19 +1,12 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: LambdaTV S3 intro demo setup
 
-Parameters:
-  BucketName:
-    Type: String
-    Default: lambdatv-s3-intro-image-demo
-    Description: Change this to avoid collision with other users (i.e me)
-
 Resources:
   OurBucket:
     Type: AWS::S3::Bucket
-    DependsOn: LambdaInvokePermission
+    DependsOn: InvokePermission
     Properties:
-      BucketName: !Ref BucketName
-      AccessControl: BucketOwnerFullControl
+      BucketName: !Sub 'lambdatv-s3-image-tag-${AWS::AccountId}'
       NotificationConfiguration:
         LambdaConfigurations:
         -  Event: 's3:ObjectCreated:*'
@@ -75,14 +68,14 @@ Resources:
       Timeout: 60
       ReservedConcurrentExecutions: 10
 
-  LambdaInvokePermission:
+  InvokePermission:
     Type: AWS::Lambda::Permission
     Properties:
       FunctionName: !Ref PutImageFn
       Action: 'lambda:InvokeFunction'
       Principal: s3.amazonaws.com
       SourceAccount: !Ref 'AWS::AccountId'
-      SourceArn: !Sub 'arn:aws:s3:::${BucketName}'
+      SourceArn: !Sub 'arn:aws:s3:::lambdatv-s3-image-tag-${AWS::AccountId}'
   Role:
     Type: AWS::IAM::Role
     Properties:
@@ -102,7 +95,7 @@ Resources:
             Resource: '*'
           - Effect: Allow
             Action: ['s3:PutObjectTagging', 's3:GetObject']
-            Resource: [!Sub 'arn:aws:s3:::${BucketName}/*']
+            Resource: !Sub 'arn:aws:s3:::lambdatv-s3-image-tag-${AWS::AccountId}/*'
           - Effect: Allow
             Action: ['rekognition:DetectLabels', 'rekognition:RecognizeCelebrities']
             Resource: '*'
