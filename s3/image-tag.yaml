@@ -15,21 +15,21 @@ Resources:
              S3Key:
                Rules:
                - Name: suffix
-                 Value: jpg
+                 Value: .jpg
         -  Event: 's3:ObjectCreated:*'
            Function: !Sub '${PutImageFn.Arn}'
            Filter:
              S3Key:
                Rules:
                - Name: suffix
-                 Value: jpeg
+                 Value: .jpeg
         -  Event: 's3:ObjectCreated:*'
            Function: !Sub '${PutImageFn.Arn}'
            Filter:
              S3Key:
                Rules:
                - Name: suffix
-                 Value: png
+                 Value: .png
   PutImageFn:
     Type: AWS::Lambda::Function
     Properties:
