@@ -6,7 +6,7 @@ Resources:
     Type: AWS::S3::Bucket
     DependsOn: InvokePermission
     Properties:
-      BucketName: !Sub 'lambdatv-s3-catchall-${AWS::AccountId}'
+      BucketName: !Sub 'lambdatv-s3-event-log-${AWS::AccountId}'
       NotificationConfiguration:
         LambdaConfigurations:
         -  Event: 's3:ObjectCreated:*'
@@ -65,7 +65,7 @@ Resources:
       Action: 'lambda:InvokeFunction'
       Principal: s3.amazonaws.com
       SourceAccount: !Ref 'AWS::AccountId'
-      SourceArn: !Sub 'arn:aws:s3:::lambdatv-s3-catchall-${AWS::AccountId}'
+      SourceArn: !Sub 'arn:aws:s3:::lambdatv-s3-event-log-${AWS::AccountId}'
 
   Role:
     Type: AWS::IAM::Role
