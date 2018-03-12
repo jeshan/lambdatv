@@ -4,7 +4,7 @@ Description: LambdaTV S3 intro demo setup
 Resources:
   DemoBucket:
     Type: AWS::S3::Bucket
-    DependsOn: LambdaInvokePermission
+    DependsOn: InvokePermission
     Properties:
       BucketName: !Sub 'lambdatv-s3-catchall-${AWS::AccountId}'
       NotificationConfiguration:
@@ -58,7 +58,7 @@ Resources:
       Timeout: 60
       ReservedConcurrentExecutions: 10
 
-  LambdaInvokePermission:
+  InvokePermission:
     Type: AWS::Lambda::Permission
     Properties:
       FunctionName: !Ref CatchAllFn
