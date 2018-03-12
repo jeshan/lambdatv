@@ -50,7 +50,7 @@ Resources:
               for record in event['Records']:
                   bucket_name = record['s3']['bucket']['name']
                   object_key = record['s3']['object']['key']
-                  size = record['s3']['object'].get('size', 0)
+                  size = record['s3']['object'].get('size', -1)
                   event_name = record['eventName']
                   event_time = record['eventTime']
                   dynamodb.Table('${Table}').put_item(
