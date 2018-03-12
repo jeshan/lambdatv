@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: LambdaTV S3 s3 image tag setup
+Description: LambdaTV S3 image tag setup
 
 Resources:
   OurBucket:
