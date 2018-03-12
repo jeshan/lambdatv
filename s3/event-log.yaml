@@ -8,9 +8,9 @@ Parameters:
     Description: Change this to avoid collision with other users (i.e me)
 
 Resources:
-  CatchAllDemoBucket:
+  DemoBucket:
     Type: AWS::S3::Bucket
-    DependsOn: CatchAllLambdaInvokePermission
+    DependsOn: LambdaInvokePermission
     Properties:
       BucketName: !Ref BucketName
       NotificationConfiguration:
@@ -60,11 +60,11 @@ Resources:
 
       Handler: index.image_handler
       Runtime: python3.6
-      Role: !Sub '${CatchAllRole.Arn}'
+      Role: !Sub '${Role.Arn}'
       Timeout: 60
       ReservedConcurrentExecutions: 10
 
-  CatchAllLambdaInvokePermission:
+  LambdaInvokePermission:
     Type: AWS::Lambda::Permission
     Properties:
       FunctionName: !Ref CatchAllFn
@@ -73,7 +73,7 @@ Resources:
       SourceAccount: !Ref 'AWS::AccountId'
       SourceArn: !Sub 'arn:aws:s3:::${BucketName}'
 
-  CatchAllRole:
+  Role:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
