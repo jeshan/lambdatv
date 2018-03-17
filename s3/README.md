@@ -11,6 +11,9 @@ Run this demo by running the specified command in your terminal:
 
 `aws cloudformation deploy --template-file image-tag.yaml --stack-name s3-image-tag --capabilities CAPABILITY_NAMED_IAM`
 
+# Bucket events through Cloudwatch Events
+
+`aws cloudformation deploy --template-file image-tag.yaml --stack-name s3-bucket-events --capabilities CAPABILITY_IAM`
 
 
 # Upload some files
