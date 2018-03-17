@@ -13,7 +13,7 @@ Run this demo by running the specified command in your terminal:
 
 # Bucket events through Cloudwatch Events
 
-`aws cloudformation deploy --template-file image-tag.yaml --stack-name s3-bucket-events --capabilities CAPABILITY_IAM`
+`aws cloudformation deploy --template-file s3-bucket-events.yaml --stack-name s3-bucket-events --capabilities CAPABILITY_IAM`
 
 
 # Upload some files
