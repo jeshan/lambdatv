@@ -76,14 +76,12 @@ Resources:
           Effect: Allow
           Principal:
             Service: [lambda.amazonaws.com]
+      ManagedPolicyArns: ['arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole']
       Policies:
       - PolicyName: tag
         PolicyDocument:
           Version: 2012-10-17
           Statement:
-          - Effect: Allow
-            Action: ['logs:GetLogEvents', 'logs:FilterLogEvents', 'logs:PutLogEvents', 'logs:CreateLogGroup', 'logs:CreateLogStream']
-            Resource: '*'
           - Effect: Allow
             Action: ['dynamodb:PutItem']
             Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${Table}'
