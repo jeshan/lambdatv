@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  main:
+    build:
+      context: .
+    entrypoint: cfn_nag
+    command: --help
+
+  rules:
+    build:
+      context: .
+    entrypoint: cfn_nag_rules
+
+  first:
+    build:
+      context: .
+    entrypoint: cfn_nag
+    command: demo-template.yaml
